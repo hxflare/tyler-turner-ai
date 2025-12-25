@@ -1,0 +1,11 @@
+{
+    "persistence-filename": "",
+    "ai-filename": "",
+    "cache-dir":"",
+    "bot-token": "",
+    "log-filename": "",
+    "bot-names":[
+    
+    ],
+    "prompt": ""
+}

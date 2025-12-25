@@ -1,0 +1,8 @@
+ais/
+cache/
+__pycache__/
+bot.log
+config.json
+bot-persistence
+notes.txt
+test.jpg
