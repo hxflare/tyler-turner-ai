@@ -13,6 +13,7 @@ logger=logging.getLogger()
 logger.setLevel(logging.DEBUG)
 last_question_time=time.time()
 async def start(update: Update,context: ContextTypes.DEFAULT_TYPE):
+    await context.bot.send_chat_action(chat_id=update.effective_message.chat_id,action="typing")
     await update.message.reply_text("I think charlie kirks reflectivity is only matched by king von. Charlie is just THAT shiny. I want him to slither all over me, leaving trails of his shiny goopy skin excertions. I am just that aroused by his slug-like form. His shell is more intricate than anything in this world. If i was there, i would jump to save him. My beloved little slimey boy kirk! Oh that would be delightful if he crawled all over my mouth, blocking my airway so i had to breath in the air that came through him. I wamt him to debate me while he is on me, stuck to me with his shiny goopy snail foot, his shell bobbing from side to side.")
 async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text=update.message.text
@@ -25,6 +26,7 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 break
         if not addressed:
             return
+    await context.bot.send_chat_action(chat_id=update.effective_message.chat_id,action="typing")
     global last_question_time
     print(last_question_time)
     if time.time()-last_question_time>30:
@@ -46,6 +48,7 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else: 
         await update.message.reply_text("Rate limited")
 async def handle_images(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await context.bot.send_chat_action(chat_id=update.effective_message.chat_id,action="typing")
     global last_question_time
     print(last_question_time)
     if time.time()-last_question_time>60:
