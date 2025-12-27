@@ -34,7 +34,7 @@ class ai:
             print(f"responded in: {time.time()-starttime} with {output["choices"][0]["text"]}")
             return [output["choices"][0]["text"]]
         else:
-            image_desc=self.describe_image(image_path)
+            image_desc=self.describe_image(image_path,verbose=True)
             output = self.llm(f"{self.prompt}<|im_start|>chat user .\n Message: a photo of {image_desc}; {message}.\n<|im_end|><|im_start|>response you respond(with accent on your fetish): ",max_tokens=256,stop=["Message:","Photo:","responds:","#"])
             if history==None:
                 self.history_gl.append({"username":user,"message":message,"photo":image_desc,"response":output["choices"][0]["text"]})
