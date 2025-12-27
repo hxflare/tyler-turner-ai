@@ -13,7 +13,7 @@ class ai:
         self.history_gl=[]
     def describe_image(self,image_path:str, verbose:bool=False)->str:
         print(f"describing {image_path}")
-        prompt="This is a photo of "
+        prompt="This is a photo of a..."
         start_time=time.time()
         encoded_image=None
         image=Image.open(image_path)
@@ -24,7 +24,7 @@ class ai:
         if verbose: print(query)
         return query["answer"]
     async def respond(self,message:str,user:str="hxflare",image_path:str|None=None,history=None)->list:
-        print(f"ai respond to {message}")
+        print(f"ai respond to {message} \nby user {user}\n")
         starttime=time.time()
         if history == None: history=self.history_gl
         if image_path==None:
