@@ -13,7 +13,7 @@ class ai:
         self.history_gl=[]
     def describe_image(self,image_path:str, verbose:bool=False)->str:
         print(f"describing {image_path}")
-        prompt="What is the detailed description of this image?"
+        prompt="This is a photo of "
         start_time=time.time()
         encoded_image=None
         image=Image.open(image_path)
@@ -35,13 +35,8 @@ class ai:
             return [output["choices"][0]["text"]]
         else:
             image_desc=self.describe_image(image_path)
-            if message=="":
-                output = self.llm(f"{self.prompt}<|im_start|>chat user \n sent a photo:{image_desc}\n<|im_end|><|im_start|>response you respond(with accent on your fetish): ",max_tokens=256,stop=["Message:","Photo:","responds:","#"])
-                if history==None:
-                    self.history_gl.append({"username":user,"message":message,"photo":image_desc,"response":output["choices"][0]["text"]})
-            else:
-                output = self.llm(f"{self.prompt}<|im_start|>chat user .\n Message:{message}. \nPhoto:{image_desc}\n<|im_end|><|im_start|>response you respond(with accent on your fetish): ",max_tokens=256,stop=["Message:","Photo:","responds:","#"])
-                if history==None:
-                    self.history_gl.append({"username":user,"message":message,"photo":image_desc,"response":output["choices"][0]["text"]})
+            output = self.llm(f"{self.prompt}<|im_start|>chat user .\n Message: a photo of {image_desc}; {message}.\n<|im_end|><|im_start|>response you respond(with accent on your fetish): ",max_tokens=256,stop=["Message:","Photo:","responds:","#"])
+            if history==None:
+                self.history_gl.append({"username":user,"message":message,"photo":image_desc,"response":output["choices"][0]["text"]})
             print(f"responded in: {time.time()-starttime} with {output["choices"][0]["text"]}")
             return [output["choices"][0]["text"],image_desc]

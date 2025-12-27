@@ -28,7 +28,7 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
     await context.bot.send_chat_action(chat_id=update.effective_message.chat_id,action="typing")
     global last_question_time
-    print(last_question_time)
+    print(time.time()-last_question_time)
     if time.time()-last_question_time>30:
         
         print(update.message.text)
@@ -46,7 +46,7 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
         with open(f"{config.cache_dir}/history.txt", "a") as f:
             f.write(f"user @{update.effective_user.username} at {time.time()}:\n{text}\nResponse:\n{response[0]}")
     else: 
-        await update.message.reply_text("Rate limited")
+        await update.message.reply_text(f"Rate limited. Wait {round(30-time.time()+last_question_time)}s")
 async def handle_images(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_chat_action(chat_id=update.effective_message.chat_id,action="typing")
     global last_question_time
@@ -70,7 +70,7 @@ async def handle_images(update: Update, context: ContextTypes.DEFAULT_TYPE):
         with open(f"{config.cache_dir}/history.txt", "a") as f:
             f.write(f"user @{update.effective_user.username} at {time.time()}:\n{text}\nResponse:\n{response[0]}")
     else: 
-        await update.message.reply_text("Rate limited")
+        await update.message.reply_text(f"Rate limited. Wait {round(60-time.time()+last_question_time)}s")
 
 async def clear(update: Update,context:ContextTypes.DEFAULT_TYPE):
     context.user_data["history"]=[]
