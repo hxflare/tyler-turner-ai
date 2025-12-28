@@ -44,7 +44,7 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(response[0])
         last_question_time=time.time()
         with open(f"{config.cache_dir}/history.txt", "a") as f:
-            f.write(f"user @{update.effective_user.username} at {time.time()}:\n{text}\nResponse:\n{response[0]}")
+            f.write(f"\nuser @{update.effective_user.username} at {time.time()}:\n{text}\nResponse:\n{response[0]}")
     else: 
         await update.message.reply_text(f"Rate limited. Wait {round(30-time.time()+last_question_time)}s")
 async def handle_images(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -68,7 +68,7 @@ async def handle_images(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(response[0])
         last_question_time=time.time()
         with open(f"{config.cache_dir}/history.txt", "a") as f:
-            f.write(f"user @{update.effective_user.username} at {time.time()}:\n{text}\nResponse:\n{response[0]}")
+            f.write(f"\nuser @{update.effective_user.username} at {time.time()}:\n{text}\nResponse:\n{response[0]}")
     else: 
         await update.message.reply_text(f"Rate limited. Wait {round(60-time.time()+last_question_time)}s")
 

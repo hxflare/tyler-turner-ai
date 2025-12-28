@@ -13,7 +13,7 @@ class ai:
         self.history_gl=[]
     def describe_image(self,image_path:str, verbose:bool=False)->str:
         print(f"describing {image_path}")
-        prompt="This is a photo of a..."
+        prompt="Detailed description of this photo, return every piece of text "
         start_time=time.time()
         encoded_image=None
         image=Image.open(image_path)
@@ -23,11 +23,13 @@ class ai:
         print(f"described image in {time.time()-start_time}, output:{query["answer"]}")
         if verbose: print(query)
         return query["answer"]
-    async def respond(self,message:str,user:str="hxflare",image_path:str|None=None,history=None)->list:
+    async def respond(self,message:str="",user:str="hxflare",image_path:str|None=None,history=None)->list:
+        if message==None: message=""
         print(f"ai respond to {message} \nby user {user}\n")
         starttime=time.time()
         if history == None: history=self.history_gl
         if image_path==None:
+            print(f"prompt: chat user\n sent a message to you:\n{message}")
             output = self.llm(f"{self.prompt}<|im_start|>chat user\n sent a message to you:\n{message}\n<|im_end|><|im_start|>response you respond(with accent on your fetish): ",max_tokens=256,stop=["Message:","Photo:","responds:","#"])
             if history==None:
                 self.history_gl.append({"username":user,"message":message,"photo":image_desc,"response":output["choices"][0]["text"]})
@@ -35,7 +37,8 @@ class ai:
             return [output["choices"][0]["text"]]
         else:
             image_desc=self.describe_image(image_path,verbose=True)
-            output = self.llm(f"{self.prompt}<|im_start|>chat user .\n Message: a photo of {image_desc}; {message}.\n<|im_end|><|im_start|>response you respond(with accent on your fetish): ",max_tokens=256,stop=["Message:","Photo:","responds:","#"])
+            print(f"prompt: chat user .\n Message: a photo of {image_desc}; {message}.")
+            output = self.llm(f"{self.prompt}<|im_start|>chat user .\n Message: a photo of {image_desc}; {message}.\n<|im_end|><|im_start|>response you respond(with accent on your fetish, but focusing on the photo.): ",max_tokens=256,stop=["Message:","Photo:","responds:","#"])
             if history==None:
                 self.history_gl.append({"username":user,"message":message,"photo":image_desc,"response":output["choices"][0]["text"]})
             print(f"responded in: {time.time()-starttime} with {output["choices"][0]["text"]}")
